@@ -7,7 +7,7 @@ function Dashboard({ player }) {
 
     useEffect(() => {
         const fetchPlayers = async () => {
-            const response = await fetch("http://localhost:3000/players");
+            const response = await fetch("https://pyramidgame-backend.onrender.com/voting");
             const data = await response.json();
             setPlayers(Object.entries(data).map(([name, info]) => ({ name, position: info.position })));
         };
@@ -18,7 +18,7 @@ function Dashboard({ player }) {
     }, []);
 
     const processVoting = async () => {
-        const response = await fetch("http://localhost:3000/process-voting", { method: "POST" });
+        const response = await fetch("https://pyramidgame-backend.onrender.com/process-voting", { method: "POST" });
         const data = await response.json();
         alert(data.message);
     };

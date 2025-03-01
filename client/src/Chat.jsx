@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 
-const socket = io("http://localhost:3000");
+const socket = io("https://pyramidgame-backend.onrender.com");
 
 function Chat({ username }) {
     const navigate = useNavigate();

@@ -7,7 +7,7 @@ function Leaderboard() {
 
     useEffect(() => {
         const fetchPlayers = async () => {
-            const response = await fetch("http://localhost:3000/players");
+            const response = await fetch("https://pyramidgame-backend.onrender.com/players");
             const data = await response.json();
             setPlayers(Object.entries(data).map(([name, info]) => ({ name, position: info.position })));
         };

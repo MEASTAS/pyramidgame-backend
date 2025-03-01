@@ -12,7 +12,7 @@ function Voting({ player }) {
             return;
         }
 
-        const response = await fetch("http://localhost:3000/vote", {
+        const response = await fetch("https://pyramidgame-backend.onrender.com/vote", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ voter: player.name, target: selectedPlayer }),

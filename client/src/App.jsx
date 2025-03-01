@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Profile from "./Profile";
-import Voting from "./Voting";
-import Leaderboard from "./Leaderboard";
-import Chat from "./Chat";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./style.css";
+import Voting from "./Voting";
+import Chat from "./Chat";
+import Leaderboard from "./Leaderboard";
 
 function App() {
     const [code, setCode] = useState("");
@@ -12,7 +11,7 @@ function App() {
     const [player, setPlayer] = useState(null);
 
     const handleLogin = async () => {
-        const response = await fetch("http://localhost:3000/login", {
+        const response = await fetch("https://pyramid-backend.onrender.com/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ code }),
@@ -28,23 +27,38 @@ function App() {
 
     return (
         <Router>
-            <Routes>
-                <Route path="/" element={player ? <Profile player={player} /> : (
-                    <div className="login-container">
-                        <h1>Masukkan Kode Rahasia</h1>
+            <div className="container">
+                <h1 className="glitch" data-text="PYRAMID GAME">PYRAMID GAME</h1>
+                <p>Selamat datang di permainan misterius. Apakah kamu siap?</p>
+
+                {!player ? (
+                    <div className="login-box">
                         <input
                             type="text"
-                            placeholder="Kode Rahasia"
+                            placeholder="Masukkan Kode Rahasia"
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
                         />
-                        <button onClick={handleLogin}>Login</button>
-                        {message && <p style={{ color: "red" }}>{message}</p>}
+                        <button onClick={handleLogin}>Masuk</button>
+                        {message && <p className="error">{message}</p>}
                     </div>
-                )} />
-                <Route path="/voting" element={<Voting player={player} />} />
+                ) : (
+                    <div className="dashboard">
+                        <h2>Selamat datang, {player.name}!</h2>
+                        <p>Posisi kamu: {player.position}</p>
+                        <nav>
+                            <Link to="/voting"><button>Masuk ke Voting</button></Link>
+                            <Link to="/leaderboard"><button>Lihat Leaderboard</button></Link>
+                            <Link to="/chat"><button>Masuk ke Chat</button></Link>
+                        </nav>
+                    </div>
+                )}
+            </div>
+
+            <Routes>
+                <Route path="/voting" element={<Voting />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
-                <Route path="/chat" element={<Chat username={player?.name} />} />
+                <Route path="/chat" element={<Chat />} />
             </Routes>
         </Router>
     );
